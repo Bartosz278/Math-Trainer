@@ -1,24 +1,16 @@
 package com.project.mathtrainer.Security;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
 public class AuthController {
-    @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
 
-        String token = jwtTokenProvider.generateToken(loginRequest.getUsername());
-        return ResponseEntity.ok(new JwtResponse(token));
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
-
+    //todo poka sowe tylko w celach debugowawczych bo mnie już wkurwila ta walidacja
+    @GetMapping("/pokaSowe")
+    public ResponseEntity<String> pokaSowe(){
+        return ResponseEntity.ok("pokaSowe");
     }
 }
 
