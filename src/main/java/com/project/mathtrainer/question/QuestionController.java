@@ -1,6 +1,10 @@
 package com.project.mathtrainer.question;
 
 import com.google.gson.JsonObject;
+import com.project.mathtrainer.User.User;
+import com.project.mathtrainer.User.UserService;
+import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,20 +13,27 @@ import java.util.Random;
 
 @RequestMapping("/api")
 @RestController
+@AllArgsConstructor
 public class QuestionController {
-    private static final int DRAW_RANGE = 10;
+
+    private final UserService userService;
     private static final String[] OPERATIONS = {"+", "-", "/", "*"};
     private final Random random = new Random();
+
     @GetMapping("/question")
     public String throwQuestion(){
-        return generateQuestion();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.getCurrentUser(username);
+
+        return generateQuestion(user);
     }
-    private String generateQuestion(){
+
+    private String generateQuestion(User user){
         JsonObject jsonObject = new JsonObject();
 
         String mathematicalOperation = drawOperation();
-        int firstNumber = drawNumber(DRAW_RANGE);
-        int secondNumber = drawNumber(DRAW_RANGE);
+        int firstNumber = drawNumber(user);
+        int secondNumber = drawNumber(user);
         int result;
 
         switch(mathematicalOperation){
@@ -31,14 +42,14 @@ public class QuestionController {
                 break;
             case "-":
                 while(secondNumber > firstNumber){
-                    secondNumber = drawNumber(DRAW_RANGE);
+                    secondNumber = drawNumber(user);
                 }
                 result = firstNumber - secondNumber;
                 break;
             case "/":
                 while(secondNumber == 0 || firstNumber % secondNumber != 0){
-                    firstNumber = drawNumber(DRAW_RANGE);
-                    secondNumber = drawNumber(DRAW_RANGE);
+                    firstNumber = drawNumber(user);
+                    secondNumber = drawNumber(user);
                 }
                 result = firstNumber / secondNumber;
                 break;
@@ -54,11 +65,13 @@ public class QuestionController {
 
         return jsonObject.toString();
     }
+
     private String drawOperation(){
         int number = random.nextInt(OPERATIONS.length);
         return OPERATIONS[number];
     }
-    private int drawNumber(int range){
-        return random.nextInt(range) + 1;
+
+    private int drawNumber(User user){
+        return (random.nextInt(10 * user.getLvl()) + 1) + (user.getLvl() * 3);
     }
 }

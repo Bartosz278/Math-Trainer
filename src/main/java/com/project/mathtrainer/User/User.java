@@ -20,4 +20,6 @@ public class User {
     private String email;
 
     private boolean isVerified;
+
+    private int lvl;
 }
