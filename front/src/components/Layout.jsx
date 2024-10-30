@@ -4,7 +4,7 @@ import Problem from "./Problem";
 
 function Layout() {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col justify-center">
       <Header />
       <Problem />
       <Login />
