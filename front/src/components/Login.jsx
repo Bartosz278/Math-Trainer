@@ -1,6 +1,11 @@
+import { useState } from "react";
+
 function Login() {
+  const [isSignUp, setIsSignUp] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Logika logowania tutaj
   };
 
   return (
@@ -18,13 +23,32 @@ function Login() {
             <label className="text-white mb-1">Password</label>
             <input type="password" placeholder="Password" className="p-3 rounded-sm" />
           </div>
+          {isSignUp ? (
+            <div className="flex flex-col w-4/5">
+              <label className="text-white mb-1">Confirm password</label>
+              <input type="password" placeholder="Password" className="p-3 rounded-sm" />
+            </div>
+          ) : null}
 
           <button type="submit" className="bg-lightGreen h-10 w-4/5 rounded-sm font-bold mt-4 self-center">
-            Log in
+            {isSignUp ? "Sign up" : "Log in"}
           </button>
 
+          {isSignUp ? (
+            <span onClick={() => setIsSignUp(false)} className="text-white mt-4 text-sm cursor-pointer">
+              &larr; Back to <u className="text-lightGreen font-bold underline ">log in</u>
+            </span>
+          ) : (
+            <span className="text-white mt-4 text-sm">
+              Don’t have an account?{" "}
+              <a onClick={() => setIsSignUp(true)} className="text-lightGreen font-bold underline cursor-pointer">
+                Sign up
+              </a>
+            </span>
+          )}
+
           <span className="text-white mt-2">
-            or play as a <u>Guest</u>
+            or play as a <u className="cursor-pointer">Guest</u>
           </span>
         </form>
       </div>
