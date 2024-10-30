@@ -1,5 +1,18 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import PageNotFound from "./components/PageNotFound";
+import Login from "./components/Login";
+import Layout from "./components/Layout";
+
 function App() {
-  return <h1 className="text-center">hello</h1>;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<Layout />} />
+        <Route path="login" element={<Login />} />
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
