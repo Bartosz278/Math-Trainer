@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 function Problem() {
-  const [question, setQuestion] = useState({});
+  const [question, setQuestion] = useState({ Operation: "2 + 2" });
   useEffect(() => {
     async function getQuestion() {
       const res = await fetch("http://localhost:8080/api/question");

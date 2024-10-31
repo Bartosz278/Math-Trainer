@@ -13,7 +13,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
       <nav className="mt-4">
         <ul className="flex flex-col space-y-4 p-4 justify-center">
           <li className="text-center shadow-sm text-xl">
-            <Link to="/" onClick={toggleSidebar} className="flex gap-2 justify-center items-center">
+            <Link to="/home" onClick={toggleSidebar} className="flex gap-2 justify-center items-center">
               <IoHomeOutline />
               Home
             </Link>

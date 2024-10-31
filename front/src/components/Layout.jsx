@@ -1,7 +1,8 @@
 import { useState } from "react";
 import Header from "./Header";
-import Problem from "./Problem";
+import Problem from "../pages/Problem";
 import Sidebar from "./Sidebar";
+import { Outlet } from "react-router-dom";
 
 function Layout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -16,7 +17,7 @@ function Layout() {
 
       <div className="flex flex-col flex-grow">
         <Header toggleSidebar={toggleSidebar} />
-        <Problem />
+        <Outlet />
       </div>
     </div>
   );
