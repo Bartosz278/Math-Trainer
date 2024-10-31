@@ -11,6 +11,10 @@ function Login() {
   return (
     <div className="h-screen absolute w-screen top-0 backdrop-blur-sm flex items-center justify-center">
       <div className="bg-blue-900/80 rounded-md drop-shadow-[0_35px_35px_rgba(0,0,0,0.8)] w-3/4 md:w-2/3 max-w-[400px] p-6">
+        <div className="flex justify-center">
+          <img src="./src/assets/logo.png" className="w-24 md:w-32" alt="Logo" />
+          <span className="text-white m-auto mx-0 p-3 px-0 text-4xl font-mono font-semibold text-center align-center md:text-5xl">Mathify</span>
+        </div>
         <p className="text-center text-2xl mb-4 font-Inconsolata font-bold text-white">Log in to enjoy the full version!</p>
 
         <form onSubmit={handleSubmit} className="flex flex-col items-center gap-3">
@@ -30,7 +34,7 @@ function Login() {
             </div>
           ) : null}
 
-          <button type="submit" className="bg-lightGreen h-10 w-4/5 rounded-sm font-bold mt-4 self-center">
+          <button type="submit" className="bg-lightGreen h-10 w-4/5 rounded-sm font-extrabold mt-4 self-center text-xl tracking-wider">
             {isSignUp ? "Sign up" : "Log in"}
           </button>
 

@@ -6,6 +6,7 @@ export default {
     extend: {
       fontFamily: {
         Inconsolata: ["Inconsolata", "monospace"],
+        Sriracha: ["Sriracha", "cursive"]
       },
       colors: {
         lightGreen: '#00CC00'

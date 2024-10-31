@@ -7,6 +7,7 @@ function Problem() {
       const res = await fetch("http://localhost:8080/api/question");
       const data = await res.json();
       setQuestion(data);
+      console.log(data.Operation);
     }
     getQuestion();
   }, []);
