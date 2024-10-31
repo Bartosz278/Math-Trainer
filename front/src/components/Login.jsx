@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Login() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -20,17 +21,17 @@ function Login() {
         <form onSubmit={handleSubmit} className="flex flex-col items-center gap-3">
           <div className="flex flex-col w-4/5">
             <label className="text-white mb-1">Login</label>
-            <input type="text" placeholder="Login" className="p-3 rounded-sm" />
+            <input type="text" required placeholder="Login" className="p-3 rounded-sm" />
           </div>
 
           <div className="flex flex-col w-4/5">
             <label className="text-white mb-1">Password</label>
-            <input type="password" placeholder="Password" className="p-3 rounded-sm" />
+            <input type="password" required placeholder="Password" className="p-3 rounded-sm" />
           </div>
           {isSignUp ? (
             <div className="flex flex-col w-4/5">
               <label className="text-white mb-1">Confirm password</label>
-              <input type="password" placeholder="Password" className="p-3 rounded-sm" />
+              <input type="password" required placeholder="Password" className="p-3 rounded-sm" />
             </div>
           ) : null}
 
@@ -52,7 +53,10 @@ function Login() {
           )}
 
           <span className="text-white mt-2">
-            or play as a <u className="cursor-pointer">Guest</u>
+            or play as a{" "}
+            <u className="cursor-pointer">
+              <Link to="/">Guest</Link>
+            </u>
           </span>
         </form>
       </div>
