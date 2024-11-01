@@ -8,6 +8,7 @@ public class MathTrainerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MathTrainerApplication.class, args);
+
 	}
 
 }

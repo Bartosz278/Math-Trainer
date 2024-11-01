@@ -6,3 +6,4 @@ email VARCHAR(255) NOT NULL,
 is_verified BOOLEAN NOT NULL,
 lvl INTEGER NOT NULL
 );
+
