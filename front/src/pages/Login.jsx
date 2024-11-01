@@ -6,24 +6,72 @@ function Login() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null); // State to handle errors
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState(null);
+  const [message, setMessage] = useState(null);
 
   const handleSubmit = async (e) => {
-    //logic to login
     e.preventDefault();
+    setError(null);
+    setMessage(null);
+
+    if (isSignUp && password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
     try {
-      const response = await axios.post("http://localhost:8080/api/login", {
-        username: username,
-        password: password,
-      });
-      if (response.status === 200) {
-        console.log("Login successful!", response.data);
+      if (isSignUp) {
+        // Registration endpoint
+        console.log("register");
+        console.log(username, password);
+
+        const response = await axios.post("http://localhost:8080/api/register", {
+          username: username,
+          password: password,
+        });
+
+        if (response.status === 201) {
+          setMessage("Registration successful! You can now log in.");
+          setIsSignUp(false); // Switch to login mode
+          resetForm();
+        }
+      } else {
+        console.log(username, password);
+        const response = await axios.post(
+          "http://localhost:8080/api/login",
+          {
+            username: username,
+            password: password,
+          },
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+
+        if (response.status === 200) {
+          console.log("Login successful!", response.data);
+          localStorage.setItem("token", response.data); // Save the JWT token
+          setMessage("Login successful!");
+          resetForm();
+        } else {
+          console.log("something went wrong");
+          console.log(error);
+        }
       }
     } catch (error) {
-      console.error("Login failed:", error.response ? error.response.data : error.message);
-      setError("Invalid login credentials. Please try again.");
+      console.error("Login error:", error.response);
+      const errorMessage = error.response && error.response.data ? (typeof error.response.data === "string" ? error.response.data : JSON.stringify(error.response.data)) : "An error occurred. Please try again.";
+      setError(errorMessage);
     }
   };
+
+  const resetForm = () => {
+    setUsername("");
+    setPassword("");
+    setConfirmPassword("");
+  };
+
   return (
     <div className="h-screen absolute w-screen top-0 backdrop-blur-sm flex items-center justify-center">
       <div className="bg-blue-900/80 rounded-md drop-shadow-[0_35px_35px_rgba(0,0,0,0.8)] w-3/4 md:w-2/3 max-w-[400px] p-6">
@@ -31,8 +79,11 @@ function Login() {
           <img src="./src/assets/logo.png" className="w-24 md:w-32" alt="Logo" />
           <span className="text-white m-auto mx-0 p-3 px-0 text-4xl font-mono font-semibold text-center align-center md:text-5xl">Mathify</span>
         </div>
-        <p className="text-center text-2xl mb-4 font-Inconsolata font-bold text-white">Log in to enjoy the full version!</p>
-        {error && <p className="text-red-500 text-center">{error}</p>} {/* Display error if it exists */}
+        <p className="text-center text-2xl mb-4 font-Inconsolata font-bold text-white">{isSignUp ? "Sign up to join!" : "Log in to enjoy the full version!"}</p>
+
+        {error && <p className="text-red-500 text-center">{error}</p>}
+        {message && <p className="text-green-500 text-center">{message}</p>}
+
         <form onSubmit={handleSubmit} className="flex flex-col items-center gap-3">
           <div className="flex flex-col w-4/5">
             <label className="text-white mb-1">Login</label>
@@ -46,8 +97,8 @@ function Login() {
 
           {isSignUp && (
             <div className="flex flex-col w-4/5">
-              <label className="text-white mb-1">Confirm password</label>
-              <input type="password" required placeholder="Password" className="p-3 rounded-sm" />
+              <label className="text-white mb-1">Confirm Password</label>
+              <input type="password" required placeholder="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="p-3 rounded-sm" />
             </div>
           )}
 
