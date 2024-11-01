@@ -1,4 +1,4 @@
-package com.project.mathtrainer.Security;
+package com.project.mathtrainer.Authentication;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

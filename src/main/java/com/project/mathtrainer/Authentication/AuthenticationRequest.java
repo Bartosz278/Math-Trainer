@@ -1,4 +1,4 @@
-package com.project.mathtrainer.Security;
+package com.project.mathtrainer.Authentication;
 
 public class AuthenticationRequest {
     private String username;

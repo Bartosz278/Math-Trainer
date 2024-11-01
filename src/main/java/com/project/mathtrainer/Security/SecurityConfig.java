@@ -1,7 +1,8 @@
 package com.project.mathtrainer.Security;
 
+import com.project.mathtrainer.Authentication.JwtAuthenticationFilter;
 import com.project.mathtrainer.User.UserService;
-import com.project.mathtrainer.Security.JwtUtil;
+import com.project.mathtrainer.Authentication.JwtUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

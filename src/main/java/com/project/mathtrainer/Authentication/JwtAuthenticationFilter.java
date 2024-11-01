@@ -1,4 +1,4 @@
-package com.project.mathtrainer.Security;
+package com.project.mathtrainer.Authentication;
 
 import com.project.mathtrainer.User.UserService;
 import jakarta.servlet.FilterChain;
