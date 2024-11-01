@@ -26,4 +26,23 @@
   .backspace-key {
     @apply bg-blue-500 text-white hover:bg-blue-400 active:bg-blue-600;
   }
+  /* .tile {
+    @apply cursor-pointer sm:w-48 max-w-[400px] p-4 bg-gray-300 font-Inconsolata rounded-lg shadow-lg border-2 border-gray-300 hover:shadow-blue-500/40 transition duration-300 ease-in-out;
+  }
+
+  .tile:hover {
+    @apply transform scale-105;
+  }
+
+  .tile-title {
+    @apply text-center text-lg font-extrabold bg-gray-400/30 text-gray-800 p-2 rounded-t-md;
+  }
+
+  .tile-text {
+    @apply text-center mt-2 text-sm text-gray-700;
+  }
+
+  .arrow {
+    @apply flex justify-center mt-4 text-blue-500;
+  } */
 }
