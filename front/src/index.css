@@ -13,4 +13,17 @@
   h1 {
     font-size: 36px;
   }
+  /* Apply these classes directly or customize as per project setup */
+
+  .key {
+    @apply flex items-center justify-center font-extrabold text-xl p-4 bg-gray-100 text-gray-800 rounded-md shadow-sm sm:hover:bg-gray-300 active:bg-gray-400 transition ease-in-out duration-150;
+  }
+
+  .clear-key {
+    @apply bg-red-500 text-white hover:bg-red-400 active:bg-red-600;
+  }
+
+  .backspace-key {
+    @apply bg-blue-500 text-white hover:bg-blue-400 active:bg-blue-600;
+  }
 }
