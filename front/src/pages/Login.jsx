@@ -1,65 +1,35 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState(null);
-  const [message, setMessage] = useState(null);
+  const { login, register, error, message, setError } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
-    setMessage(null);
 
     if (isSignUp && password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
 
-    try {
-      if (isSignUp) {
-        const response = await axios.post("http://localhost:8080/api/register", {
-          username: username,
-          password: password,
-          lvl: 50,
-        });
-
-        if (response.status === 200) {
-          setMessage("Registration successful! You can now log in.");
-          setIsSignUp(false);
-          resetForm();
-        }
-      } else {
-        const response = await axios.post(
-          "http://localhost:8080/api/login",
-          {
-            username: username,
-            password: password,
-          },
-          {
-            headers: { "Content-Type": "application/json" },
-          }
-        );
-
-        if (response.status === 200) {
-          localStorage.setItem("token", response.data);
-          setMessage("Login successful!");
-          resetForm();
-          navigate("/");
-        } else {
-          console.log("something went wrong");
-          console.log(error);
-        }
+    if (isSignUp) {
+      const success = await register(username, password);
+      if (success) {
+        setIsSignUp(false);
+        resetForm();
       }
-    } catch (error) {
-      console.error("Login error:", error.response);
-      const errorMessage = error.response && error.response.data ? (typeof error.response.data === "string" ? error.response.data : JSON.stringify(error.response.data)) : "An error occurred. Please try again.";
-      setError(errorMessage);
+    } else {
+      const success = await login(username, password);
+      if (success) {
+        resetForm();
+        navigate("/");
+      }
     }
   };
 
@@ -72,15 +42,16 @@ function Login() {
   return (
     <div className="h-screen absolute w-screen top-0 backdrop-blur-sm flex items-center justify-center">
       <div className="bg-blue-900/80 rounded-md drop-shadow-[0_35px_35px_rgba(0,0,0,0.8)] w-3/4 md:w-2/3 max-w-[400px] p-6">
-        <div className="flex justify-center">
-          <img src="./src/assets/logo.png" className="w-24 md:w-32" alt="Logo" />
-          <span className="text-white m-auto mx-0 p-3 px-0 text-4xl font-mono font-semibold text-center align-center md:text-5xl">Mathify</span>
-        </div>
+        <Link to="/">
+          <div className="flex justify-center">
+            <img src="./src/assets/logo.png" className="w-24 md:w-32" alt="Logo" />
+            <span className="text-white m-auto mx-0 p-3 px-0 text-4xl font-mono font-semibold text-center align-center md:text-5xl">Mathify</span>
+          </div>
+        </Link>
         <p className="text-center text-2xl mb-4 font-Inconsolata font-bold text-white">{isSignUp ? "Sign up to join!" : "Log in to enjoy the full version!"}</p>
 
         {error && <p className="text-red-500 text-center">{error}</p>}
         {message && <p className="text-green-500 text-center">{message}</p>}
-
         <form onSubmit={handleSubmit} className="flex flex-col items-center gap-3">
           <div className="flex flex-col w-4/5">
             <label className="text-white mb-1">Login</label>
