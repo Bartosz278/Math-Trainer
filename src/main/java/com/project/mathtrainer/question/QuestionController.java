@@ -48,7 +48,6 @@ public class QuestionController {
                 break;
             case "/":
                 while(secondNumber == 0 || firstNumber % secondNumber != 0){
-                    firstNumber = drawNumber(user);
                     secondNumber = drawNumber(user);
                 }
                 result = firstNumber / secondNumber;

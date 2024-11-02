@@ -1,5 +1,6 @@
 package com.project.mathtrainer.Authentication;
 
+import com.project.mathtrainer.Stat.Stat;
 import com.project.mathtrainer.User.User;
 import com.project.mathtrainer.User.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,11 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        Stat stat = new Stat();
+        stat.setUser(user);
+        user.setStat(stat);
+
         userService.saveUser(user);
         return ResponseEntity.ok("User registered successfully!");
     }

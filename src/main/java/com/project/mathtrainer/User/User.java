@@ -1,5 +1,6 @@
 package com.project.mathtrainer.User;
 
+import com.project.mathtrainer.Stat.Stat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +27,10 @@ public class User implements UserDetails {
 
     private boolean isVerified;
 
-    private int lvl;
+    private int lvl = 1;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Stat stat;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
