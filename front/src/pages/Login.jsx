@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Login() {
@@ -9,6 +9,7 @@ function Login() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,22 +23,18 @@ function Login() {
 
     try {
       if (isSignUp) {
-        // Registration endpoint
-        console.log("register");
-        console.log(username, password);
-
         const response = await axios.post("http://localhost:8080/api/register", {
           username: username,
           password: password,
+          lvl: 50,
         });
 
-        if (response.status === 201) {
+        if (response.status === 200) {
           setMessage("Registration successful! You can now log in.");
-          setIsSignUp(false); // Switch to login mode
+          setIsSignUp(false);
           resetForm();
         }
       } else {
-        console.log(username, password);
         const response = await axios.post(
           "http://localhost:8080/api/login",
           {
@@ -50,10 +47,10 @@ function Login() {
         );
 
         if (response.status === 200) {
-          console.log("Login successful!", response.data);
-          localStorage.setItem("token", response.data); // Save the JWT token
+          localStorage.setItem("token", response.data);
           setMessage("Login successful!");
           resetForm();
+          navigate("/");
         } else {
           console.log("something went wrong");
           console.log(error);

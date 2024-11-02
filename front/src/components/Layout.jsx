@@ -14,7 +14,6 @@ function Layout() {
   return (
     <div className="flex">
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-
       <div className="flex flex-col flex-grow">
         <Header toggleSidebar={toggleSidebar} />
         <Outlet />

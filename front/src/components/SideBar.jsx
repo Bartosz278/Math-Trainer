@@ -1,17 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { TbArrowBackUp } from "react-icons/tb";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { IoHomeOutline } from "react-icons/io5";
 import { IoIosStats } from "react-icons/io";
+import { TbLogout2 } from "react-icons/tb";
+import { IoSettingsOutline } from "react-icons/io5";
+import { logout } from "../helpers/logout";
 
 function Sidebar({ isOpen, toggleSidebar }) {
   return (
-    <div className={` fixed top-0 left-0 h-full w-44 bg-blue-500 text-white transform ${isOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-in-out z-50`}>
+    <div className={`fixed top-0 left-0 h-full w-44 bg-blue-500 text-white transform ${isOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-in-out z-50`}>
       <button onClick={toggleSidebar} className="p-2 m-2">
         <TbArrowBackUp size={30} />
       </button>
-      <nav className="mt-4">
-        <ul className="flex flex-col space-y-4 p-4 justify-center">
+      <nav className="mt-4 flex flex-col h-[calc(100%-85px)] justify-between">
+        <ul className="flex flex-col space-y-4 p-4">
           <li className="text-center shadow-sm text-xl">
             <Link to="/home" onClick={toggleSidebar} className="flex gap-2 justify-center items-center">
               <IoHomeOutline />
@@ -28,6 +31,28 @@ function Sidebar({ isOpen, toggleSidebar }) {
             <Link to="/stats" onClick={toggleSidebar} className="flex gap-2 justify-center items-center">
               <IoIosStats />
               Stats
+            </Link>
+          </li>
+        </ul>
+
+        <ul className=" flex flex-col space-y-4  p-4">
+          <li className="text-center shadow-sm text-xl">
+            <Link to="/settings" onClick={toggleSidebar} className="flex gap-2 justify-center items-center">
+              <IoSettingsOutline />
+              Settings
+            </Link>
+          </li>
+          <li className="text-center shadow-sm text-xl">
+            <Link
+              to="/login"
+              onClick={() => {
+                logout();
+                toggleSidebar();
+              }}
+              className="flex gap-2 justify-center items-center"
+            >
+              <TbLogout2 />
+              Log out
             </Link>
           </li>
         </ul>
