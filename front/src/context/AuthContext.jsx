@@ -8,7 +8,9 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("isLoggedIn") === "true" // Sprawdź stan logowania w localStorage
+  );
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -20,9 +22,13 @@ export const AuthProvider = ({ children }) => {
             headers: { Authorization: `Bearer ${token}` },
           });
           setUser(response.data);
+          setIsLoggedIn(true);
+          localStorage.setItem("isLoggedIn", "true");
         } catch (error) {
           console.error("Failed to fetch user data", error);
           setUser(null);
+          setIsLoggedIn(false);
+          localStorage.setItem("isLoggedIn", "false");
         }
       }
       setLoading(false);
@@ -53,6 +59,7 @@ export const AuthProvider = ({ children }) => {
         setUser(userResponse.data);
         setMessage("Login successful!");
         setIsLoggedIn(true);
+        localStorage.setItem("isLoggedIn", "true"); // Zapisz isLoggedIn do localStorage
         return true;
       }
     } catch (error) {
@@ -87,6 +94,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
     setIsLoggedIn(false);
+    localStorage.setItem("isLoggedIn", "false"); // Usuń stan logowania z localStorage
   };
 
   return <AuthContext.Provider value={{ user, loading, login, isLoggedIn, register, logout, error, setError, message }}>{children}</AuthContext.Provider>;

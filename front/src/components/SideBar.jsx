@@ -1,4 +1,4 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { TbArrowBackUp } from "react-icons/tb";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import { IoHomeOutline } from "react-icons/io5";
@@ -11,7 +11,6 @@ import { useAuth } from "../context/AuthContext";
 
 function Sidebar({ isOpen, toggleSidebar }) {
   const { isLoggedIn, logout, user } = useAuth();
-  console.log(user);
 
   return (
     <div className={`fixed top-0 left-0 h-full w-44 bg-blue-500 text-white transform ${isOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-in-out z-50`}>
@@ -20,7 +19,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
       </button>
       <nav className="mt-4 flex flex-col h-[calc(100%-85px)] justify-between">
         <ul className="flex flex-col space-y-4 p-4">
-          <div className="mx-auto text-xl font-bold">Hi {user.username}</div>
+          {isLoggedIn ? <div className="mx-auto text-xl font-bold">Hi {user?.username}</div> : null}
           <li className="text-center shadow-sm text-xl">
             <Link to="/home" onClick={toggleSidebar} className="flex gap-2 justify-center items-center">
               <IoHomeOutline />

@@ -5,6 +5,7 @@ import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Problem from "./pages/Problem";
 import Stats from "./pages/Stats";
+import Account from "./pages/Account";
 
 function App() {
   return (
@@ -14,9 +15,10 @@ function App() {
           <Route index element={<Navigate to="/home" replace />} />
           <Route path="home" element={<Home />} />
           <Route path="game" element={<Problem />} />
+          <Route path="login" element={<Login />} />
+          <Route path="stats" element={<Stats />} />
+          <Route path="account" element={<Account />} />
         </Route>
-        <Route path="login" element={<Login />} />
-        <Route path="stats" element={<Stats />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
