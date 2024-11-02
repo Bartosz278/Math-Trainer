@@ -13,7 +13,7 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil {
-    private final String SECRET = "nie_bede_leakowac_klucza";
+    private final String SECRET = "4261656C64756E67";
     private final long EXPIRATION_TIME = 900_000;
 
     public String extractUsername(String token) {
