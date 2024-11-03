@@ -8,9 +8,8 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    localStorage.getItem("isLoggedIn") === "true" // Sprawdź stan logowania w localStorage
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState();
+  // localStorage.getItem("isLoggedIn") === "true ^^^^^"
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -18,12 +17,13 @@ export const AuthProvider = ({ children }) => {
       const username = localStorage.getItem("username");
       if (token) {
         try {
-          const response = await axios.get(`http://localhost:8080/users/username/${username}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          setUser(response.data);
-          setIsLoggedIn(true);
-          localStorage.setItem("isLoggedIn", "true");
+          // -------->>> CZEKAMY NA ENDPOINTA Z USEREM :) <<<--------------
+          // const response = await axios.get(`http://localhost:8080/${username}`, {
+          //   headers: { Authorization: `Bearer ${token}` },
+          // });
+          // setUser(response.data);
+          // setIsLoggedIn(true);
+          // localStorage.setItem("isLoggedIn", "true");
         } catch (error) {
           console.error("Failed to fetch user data", error);
           setUser(null);
@@ -33,7 +33,6 @@ export const AuthProvider = ({ children }) => {
       }
       setLoading(false);
     };
-
     fetchUserData();
   }, []);
 
@@ -53,10 +52,13 @@ export const AuthProvider = ({ children }) => {
       if (response.status === 200) {
         localStorage.setItem("token", response.data);
         localStorage.setItem("username", username);
-        const userResponse = await axios.get(`http://localhost:8080/users/username/${username}`, {
-          headers: { Authorization: `Bearer ${response.data}` },
-        });
-        setUser(userResponse.data);
+
+        // -------->>> CZEKAMY NA ENDPOINTA Z USEREM :) <<<--------------
+
+        // const userResponse = await axios.get(`http://localhost:8080/users/username/${username}`, {
+        //   headers: { Authorization: `Bearer ${response.data}` },
+        // });
+        // setUser(userResponse.data);
         setMessage("Login successful!");
         setIsLoggedIn(true);
         localStorage.setItem("isLoggedIn", "true"); // Zapisz isLoggedIn do localStorage
@@ -80,11 +82,16 @@ export const AuthProvider = ({ children }) => {
 
       if (response.status === 200) {
         setMessage("Registration successful! You can now log in.");
+        console.log(response);
+
         return true;
       }
     } catch (error) {
       console.error("Registration error:", error.response);
-      setError(error.response?.data || "An error occurred during registration.");
+      // Sprawdzenie, czy error.response.data jest obiektem
+      const errorMessage = typeof error.response?.data === "object" ? JSON.stringify(error.response.data) : error.response?.data || "An error occurred during registration.";
+
+      setError(errorMessage); // Ustawienie zrozumiałego tekstu błędu
       return false;
     }
   };
