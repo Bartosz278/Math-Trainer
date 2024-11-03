@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Optional;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,9 +16,9 @@ public class StatDTO {
     private int correctAnswers;
     private int totalQuestions;
 
-    public StatDTO(Stat stat) {
-        this.wrongAnswers = stat.getWrongAnswers();
-        this.correctAnswers = stat.getCorrectAnswers();
-        this.totalQuestions = stat.getTotalQuestions();
+    public StatDTO(Optional<Stat> stat) {
+        this.wrongAnswers = stat.get().getWrongAnswers();
+        this.correctAnswers = stat.get().getCorrectAnswers();
+        this.totalQuestions = stat.get().getTotalQuestions();
     }
 }

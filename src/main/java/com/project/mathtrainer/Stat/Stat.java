@@ -20,7 +20,7 @@ public class Stat {
 
     private int totalQuestions;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 }

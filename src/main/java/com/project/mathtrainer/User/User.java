@@ -28,10 +28,7 @@ public class User implements UserDetails {
     private boolean isVerified;
 
     private int lvl = 1;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Stat stat;
-
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();

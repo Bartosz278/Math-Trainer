@@ -23,7 +23,7 @@ public class QuestionController {
     @GetMapping("/question")
     public String throwQuestion(){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userService.getCurrentUser(username);
+        User user = (User) userService.loadUserByUsername(username);
 
         return generateQuestion(user);
     }
