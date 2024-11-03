@@ -19,7 +19,7 @@ function Home() {
       <Link to="/game">
         <div className="cursor-pointer sm:w-48 max-w-[400px] bg-custom-gradient font-Inconsolata   rounded shadow-2xl border-2 border-gray-900/35 hover:shadow-[inset_-12px_-8px_40px_#46464620]">
           <h1 className="text-center font-extrabold bg-gray-400/30">Play</h1>
-          <p className="text-center mt-2"> Solve math problems. one game consists of 5 equations... </p>
+          <p className="text-center mt-2"> Solve math problems. One game consists of 5 equations... </p>
           <span className="flex justify-center">
             <FaLongArrowAltRight size={48} />
           </span>

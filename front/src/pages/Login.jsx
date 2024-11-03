@@ -10,9 +10,6 @@ function Login() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const { login, register, error, message, setError, isLoggedIn } = useAuth();
   const navigate = useNavigate();
-  // if (isLoggedIn) {
-  //   navigate("/");
-  // }
 
   const handleSubmit = async (e) => {
     e.preventDefault();

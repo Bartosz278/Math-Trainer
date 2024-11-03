@@ -72,7 +72,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (username, password, lvl = 50) => {
+  const register = async (username, password, lvl = 1) => {
     try {
       const response = await axios.post("http://localhost:8080/api/register", {
         username,
