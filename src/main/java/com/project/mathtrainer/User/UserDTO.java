@@ -14,5 +14,7 @@ public class UserDTO {
 
     private String email;
 
+    private boolean isVerified;
+
     private int lvl;
 }

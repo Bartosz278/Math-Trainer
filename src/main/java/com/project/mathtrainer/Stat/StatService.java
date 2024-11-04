@@ -47,7 +47,7 @@ public class StatService {
     }
 
     public Stat initializeNewStatForUser(String username) {
-        User user = (User) userService.loadUserByUsername(username);
+        User user = userService.getCurrentUser(username);
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found: " + username);
         }

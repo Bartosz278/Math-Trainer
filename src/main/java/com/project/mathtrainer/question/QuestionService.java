@@ -20,7 +20,7 @@ public class QuestionService {
 
     public String throwQuestion(){
         String username = userService.getLoggedInUsername();
-        User user = (User) userService.loadUserByUsername(username);
+        User user = userService.getCurrentUser(username);
 
         return generateQuestion(user);
     }

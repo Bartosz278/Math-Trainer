@@ -39,9 +39,9 @@ public class UserService implements UserDetailsService {
 
     public UserDTO getUserDetails(){
         String username = getLoggedInUsername();
-        User loggedInUser = (User) loadUserByUsername(username);
+        User loggedInUser = getCurrentUser(username);
 
-        return new UserDTO(loggedInUser.getUsername(), loggedInUser.getEmail(), loggedInUser.getLvl());
+        return new UserDTO(loggedInUser.getUsername(), loggedInUser.getEmail(), loggedInUser.isVerified(), loggedInUser.getLvl());
     }
 
     public String getLoggedInUsername() {
@@ -57,6 +57,11 @@ public class UserService implements UserDetailsService {
     public User findUserByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found: " + username));
+    }
+
+    public User getCurrentUser(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
     }
 
 
