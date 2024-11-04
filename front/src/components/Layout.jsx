@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Header from "./Header";
-import Problem from "../pages/Problem";
 import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
 
