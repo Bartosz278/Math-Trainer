@@ -2,11 +2,13 @@ package com.project.mathtrainer.User;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -33,6 +35,28 @@ public class UserService implements UserDetailsService {
     }
     public void saveUser(User user) {
         userRepository.save(user);
+    }
+
+    public UserDTO getUserDetails(){
+        String username = getLoggedInUsername();
+        User loggedInUser = (User) loadUserByUsername(username);
+
+        return new UserDTO(loggedInUser.getUsername(), loggedInUser.getEmail(), loggedInUser.getLvl());
+    }
+
+    public String getLoggedInUsername() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
+        } else {
+            return principal.toString();
+        }
+    }
+
+    public User findUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found: " + username));
     }
 
 

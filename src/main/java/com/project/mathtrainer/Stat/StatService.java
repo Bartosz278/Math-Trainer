@@ -15,18 +15,18 @@ import java.util.Optional;
 
 @Service
 public class StatService {
+
     @Autowired
     private  UserService userService;
-    @Autowired
-    private  UserRepository userRepository;
+
     @Autowired
     private  StatRepository statRepository;
 
 
 
     public StatDTO getStatsForLoggedInUser() {
-        String username = getLoggedInUsername();
-        User loggedInUser = findUserByUsername(username);
+        String username = userService.getLoggedInUsername();
+        User loggedInUser = userService.findUserByUsername(username);
 
         return new StatDTO(
                 Optional.ofNullable(statRepository.findByUserId(loggedInUser.getId())
@@ -36,29 +36,14 @@ public class StatService {
 
     @Transactional
     public void updateStats(StatUpdateDTO statUpdateDTO) {
-        Stat stat = statRepository.findByUserId(findUserByUsername(getLoggedInUsername()).getId())
-                .orElseGet(() -> initializeNewStatForUser(getLoggedInUsername()));
+        Stat stat = statRepository.findByUserId(userService.findUserByUsername(userService.getLoggedInUsername()).getId())
+                .orElseGet(() -> initializeNewStatForUser(userService.getLoggedInUsername()));
 
         stat.setCorrectAnswers(stat.getCorrectAnswers() + statUpdateDTO.getCorrectAnswers());
         stat.setWrongAnswers(stat.getWrongAnswers() + statUpdateDTO.getWrongAnswers());
         stat.setTotalQuestions(stat.getTotalQuestions() + statUpdateDTO.getTotalQuestions());
 
         statRepository.save(stat);
-    }
-
-    private String getLoggedInUsername() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (principal instanceof UserDetails) {
-            return ((UserDetails) principal).getUsername();
-        } else {
-            return principal.toString();
-        }
-    }
-
-    private User findUserByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found: " + username));
     }
 
     public Stat initializeNewStatForUser(String username) {
