@@ -39,7 +39,7 @@ public class AuthController {
 
 
         userService.saveUser(user);
-        statService.initializeNewStatForUser(user.getUsername());
+        statService.createStatForUser(user.getUsername());
 
         return ResponseEntity.ok("User registered successfully!");
     }

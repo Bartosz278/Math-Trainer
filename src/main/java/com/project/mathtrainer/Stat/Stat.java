@@ -10,8 +10,9 @@ import lombok.Setter;
 @Setter
 @Table(name = "\"stat\"")
 public class Stat {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private int wrongAnswers;
@@ -20,7 +21,7 @@ public class Stat {
 
     private int totalQuestions;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 }

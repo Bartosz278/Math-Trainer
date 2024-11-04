@@ -27,9 +27,4 @@ public class StatController {
         return ResponseEntity.ok(statService.getStatsForLoggedInUser());
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<String> updateUserStats(@RequestBody StatUpdateDTO updateDTO){
-        statService.updateStats(updateDTO);
-        return ResponseEntity.ok("Stats updated sucessfully");
-    }
 }

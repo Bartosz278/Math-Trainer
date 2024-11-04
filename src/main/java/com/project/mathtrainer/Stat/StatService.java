@@ -34,25 +34,13 @@ public class StatService {
         );
     }
 
-    @Transactional
-    public void updateStats(StatUpdateDTO statUpdateDTO) {
-        Stat stat = statRepository.findByUserId(userService.findUserByUsername(userService.getLoggedInUsername()).getId())
-                .orElseGet(() -> initializeNewStatForUser(userService.getLoggedInUsername()));
-
-        stat.setCorrectAnswers(stat.getCorrectAnswers() + statUpdateDTO.getCorrectAnswers());
-        stat.setWrongAnswers(stat.getWrongAnswers() + statUpdateDTO.getWrongAnswers());
-        stat.setTotalQuestions(stat.getTotalQuestions() + statUpdateDTO.getTotalQuestions());
-
-        statRepository.save(stat);
-    }
-
-    public Stat initializeNewStatForUser(String username) {
+    public void createStatForUser(String username) {
         User user = userService.getCurrentUser(username);
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found: " + username);
         }
         Stat newStat = new Stat();
         newStat.setUser(user);
-        return newStat;
+        statRepository.save(newStat);
     }
 }
