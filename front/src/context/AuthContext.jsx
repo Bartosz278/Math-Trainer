@@ -51,8 +51,6 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("token", response.data);
         localStorage.setItem("username", username);
 
-        // -------->>> CZEKAMY NA ENDPOINTA Z USEREM :) <<<--------------
-
         const userResponse = await axios.get(
           `http://localhost:8080/api/userDetails`,
           { headers: { Authorization: `Bearer ${response.data}` } }
@@ -68,7 +66,7 @@ export const AuthProvider = ({ children }) => {
       let errorMessage = "An error occurred. Please try again.";
 
       if (error.response) {
-        if (error.response.status === 403) {
+        if (error.response.status === 401) {
           errorMessage = "Access denied: Invalid username or password.";
         } else if (error.response.status === 500) {
           errorMessage = "Server error. Please try again later.";

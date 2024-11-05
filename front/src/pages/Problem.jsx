@@ -98,7 +98,7 @@ function Problem() {
 
   if (correctAnswers < 5) {
     return (
-      <div className="bg-gray-400/70 mx-auto backdrop-blur-sm border-[5px] rounded-[20px] drop-shadow-[0_35px_35px_rgba(0,0,0,0.8)]  md:w-2/3 w-[80%] max-w-[600px] h-[80%] max-h-[700px] mt-8 p-6 flex flex-col">
+      <div className="bg-gray-400/70 mx-auto backdrop-blur-sm border-[5px] rounded-[20px] drop-shadow-[0_35px_35px_rgba(0,0,0,0.8)]  md:w-2/3 w-[80%] max-w-[600px] h-[80%] max-h-[700px] min-h-[550px] mt-8 p-6 flex flex-col ">
         {isGameLaunched ? (
           <>
             {error && <p className="text-red-500 text-center">{error}</p>}

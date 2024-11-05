@@ -6,7 +6,7 @@ function Keyboard({ onKeyPress }) {
   };
 
   return (
-    <div className="relative w-full max-w-lg mx-auto p-3 bg-gray-300 rounded-lg shadow-md">
+    <div className="w-full h-full max-w-lg mx-auto p-3 bg-gray-300 rounded-lg shadow-md">
       <div className="grid grid-cols-3 gap-2">
         <button className="key" onClick={() => handleButtonClick("1")}>
           1
