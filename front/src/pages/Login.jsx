@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { FaArrowRight } from "react-icons/fa";
@@ -8,11 +8,31 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const { login, register, error, message, setError, isLoggedIn } = useAuth();
+  const {
+    login,
+    register,
+    error,
+    message,
+    setError,
+    isLoggedIn,
+    setMessage,
+    user,
+    logout,
+  } = useAuth();
   const navigate = useNavigate();
   const guest = { username: "admin", password: "admin" };
 
-  const handleSubmit = async (e, asGuest = false) => {
+  useEffect(() => {
+    if (isLoggedIn) {
+      if (!user?.username || user.username === "admin") {
+        logout();
+      } else {
+        navigate("/home");
+      }
+    }
+  }, [isLoggedIn, user, navigate, logout]);
+
+  const loginHandle = async (e, asGuest = false) => {
     e.preventDefault();
 
     if (isSignUp && password !== confirmPassword) {
@@ -41,12 +61,14 @@ function Login() {
   const resetForm = () => {
     setUsername("");
     setPassword("");
+    setError("");
+    setMessage("");
     setConfirmPassword("");
   };
 
   return (
-    <div className="h-screen absolute w-screen top-0 backdrop-blur-sm flex items-center justify-center">
-      <div className="bg-blue-900/80 rounded-md drop-shadow-[0_35px_35px_rgba(0,0,0,0.8)] w-3/4 md:w-2/3 max-w-[400px] p-6">
+    <div className="h-screen absolute w-screen top-0 flex items-center justify-center">
+      <div className="bg-gray-400/70 backdrop-blur-sm border-[5px] rounded-[20px] drop-shadow-[0_35px_35px_rgba(0,0,0,0.8)] w-3/4 md:w-2/3 max-w-[400px] p-6">
         <Link to="/">
           <div className="flex justify-center">
             <img
@@ -60,25 +82,12 @@ function Login() {
           </div>
         </Link>
 
-        {isLoggedIn ? (
-          <div className="flex justify-around items-center">
-            <p className="text-white text-xl">You are alredy logged in.</p>
-            <Link to="/">
-              <FaArrowRight size={24} className="cursor-pointer" />
-            </Link>
-          </div>
-        ) : (
+        {!user?.username || user.username === "admin" ? (
           <>
-            <p className="text-center text-2xl mb-4 font-Inconsolata font-bold text-white">
-              {isSignUp
-                ? "Sign up to join!"
-                : "Log in to enjoy the full version!"}
-            </p>
-
             {error && <p className="text-red-500 text-center">{error}</p>}
-            {message && <p className="text-green-500 text-center">{message}</p>}
+            {message && <p className="text-blue-950 text-center">{message}</p>}
             <form
-              onSubmit={handleSubmit}
+              onSubmit={loginHandle}
               className="flex flex-col items-center gap-3"
             >
               <div className="flex flex-col w-4/5">
@@ -89,7 +98,8 @@ function Login() {
                   placeholder="Login"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="p-3 rounded-sm"
+                  className="p-3 rounded-xl"
+                  autoComplete="username"
                 />
               </div>
 
@@ -101,7 +111,8 @@ function Login() {
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="p-3 rounded-sm"
+                  className="p-3 rounded-xl"
+                  autoComplete="current-password"
                 />
               </div>
 
@@ -114,14 +125,14 @@ function Login() {
                     placeholder="Confirm Password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="p-3 rounded-sm"
+                    className="p-3 rounded-xl"
                   />
                 </div>
               )}
 
               <button
                 type="submit"
-                className="bg-lightGreen h-10 w-4/5 rounded-sm font-extrabold mt-4 self-center text-xl tracking-wider"
+                className="bg-blue-950 text-white border-2 h-10 w-2/5 rounded-md font-extrabold mt-4 self-center text-xl tracking-wider"
               >
                 {isSignUp ? "Sign up" : "Log in"}
               </button>
@@ -139,7 +150,7 @@ function Login() {
                   Don’t have an account?{" "}
                   <a
                     onClick={() => setIsSignUp(true)}
-                    className="text-lightGreen font-bold underline cursor-pointer"
+                    className="text-blue-950 font-bold underline cursor-pointer"
                   >
                     Sign up
                   </a>
@@ -150,13 +161,20 @@ function Login() {
                 or play as a{" "}
                 <u
                   className="cursor-pointer"
-                  onClick={(e) => handleSubmit(e, true)}
+                  onClick={(e) => loginHandle(e, true)}
                 >
                   <Link to="/">Guest</Link>
                 </u>
               </span>
             </form>
           </>
+        ) : (
+          <div className="flex justify-around items-center">
+            <p className="text-white text-xl">You are already logged in.</p>
+            <Link to="/">
+              <FaArrowRight size={24} className="cursor-pointer" />
+            </Link>
+          </div>
         )}
       </div>
     </div>

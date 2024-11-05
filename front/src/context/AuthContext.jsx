@@ -43,13 +43,8 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await axios.post(
         "http://localhost:8080/api/login",
-        {
-          username,
-          password,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
+        { username, password },
+        { headers: { "Content-Type": "application/json" } }
       );
 
       if (response.status === 200) {
@@ -60,25 +55,29 @@ export const AuthProvider = ({ children }) => {
 
         const userResponse = await axios.get(
           `http://localhost:8080/api/userDetails`,
-          {
-            headers: { Authorization: `Bearer ${response.data}` },
-          }
+          { headers: { Authorization: `Bearer ${response.data}` } }
         );
         setUser(userResponse.data);
         setMessage("Login successful!");
         setIsLoggedIn(true);
         localStorage.setItem("isLoggedIn", "true");
-
         return true;
       }
     } catch (error) {
       console.error("Login error:", error.response);
-      const errorMessage = error.response?.data
-        ? typeof error.response.data === "string"
-          ? error.response.data
-          : JSON.stringify(error.response.data)
-        : "An error occurred. Please try again.";
+      let errorMessage = "An error occurred. Please try again.";
 
+      if (error.response) {
+        if (error.response.status === 403) {
+          errorMessage = "Access denied: Invalid username or password.";
+        } else if (error.response.status === 500) {
+          errorMessage = "Server error. Please try again later.";
+        } else if (error.response.status === 404) {
+          errorMessage = "Endpoint not found. Please contact support.";
+        } else {
+          errorMessage = error.response.data?.message || errorMessage;
+        }
+      }
       setError(errorMessage);
     }
   };
@@ -96,13 +95,13 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Registration error:", error.response);
-      // Sprawdzenie, czy error.response.data jest obiektem
+
       const errorMessage =
         typeof error.response?.data === "object"
           ? JSON.stringify(error.response.data)
           : error.response?.data || "An error occurred during registration.";
 
-      setError(errorMessage); // Ustawienie zrozumiałego tekstu błędu
+      setError(errorMessage);
       return false;
     }
   };
@@ -127,6 +126,7 @@ export const AuthProvider = ({ children }) => {
         error,
         setError,
         message,
+        setMessage,
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-import { CiMinimize1 } from "react-icons/ci";
+import { FaDeleteLeft } from "react-icons/fa6";
 
 function Keyboard({ onKeyPress }) {
   const handleButtonClick = (value) => {
@@ -35,14 +35,20 @@ function Keyboard({ onKeyPress }) {
         <button className="key" onClick={() => handleButtonClick("9")}>
           9
         </button>
-        <button className="key clear-key" onClick={() => handleButtonClick("clear")}>
+        <button
+          className="key clear-key"
+          onClick={() => handleButtonClick("clear")}
+        >
           clear
         </button>
         <button className="key" onClick={() => handleButtonClick("0")}>
           0
         </button>
-        <button className="key backspace-key" onClick={() => handleButtonClick("backspace")}>
-          backspace
+        <button
+          className="key backspace-key"
+          onClick={() => handleButtonClick("backspace")}
+        >
+          <FaDeleteLeft />
         </button>
       </div>
     </div>

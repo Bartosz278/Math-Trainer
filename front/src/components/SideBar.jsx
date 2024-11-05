@@ -13,35 +13,57 @@ function Sidebar({ isOpen, toggleSidebar }) {
   const { isLoggedIn, logout, user } = useAuth();
 
   return (
-    <div className={`fixed top-0 left-0 h-full w-44 bg-blue-500 text-white transform ${isOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-in-out z-50`}>
+    <div
+      className={`border-r  fixed top-0 left-0 h-full w-44 bg-gray-500 text-white transform ${
+        isOpen ? "translate-x-0" : "-translate-x-full"
+      } transition-transform duration-300 ease-in-out z-50`}
+    >
       <button onClick={toggleSidebar} className="p-2 m-2">
         <TbArrowBackUp size={30} />
       </button>
       <nav className="mt-4 flex flex-col h-[calc(100%-85px)] justify-between">
         <ul className="flex flex-col space-y-4 p-4">
-          {isLoggedIn ? <div className="mx-auto text-xl font-bold">Hi {user?.username}</div> : null}
+          {isLoggedIn ? (
+            <div className="mx-auto text-xl font-bold">Hi {user?.username}</div>
+          ) : null}
           <li className="text-center shadow-sm text-xl">
-            <Link to="/home" onClick={toggleSidebar} className="flex gap-2 justify-center items-center">
+            <Link
+              to="/home"
+              onClick={toggleSidebar}
+              className="flex gap-2 justify-center items-center"
+            >
               <IoHomeOutline />
               Home
             </Link>
           </li>
           {isLoggedIn ? (
             <li className="text-center shadow-sm text-xl">
-              <Link to="/account" onClick={toggleSidebar} className="flex gap-2 justify-center items-center">
+              <Link
+                to="/account"
+                onClick={toggleSidebar}
+                className="flex gap-2 justify-center items-center"
+              >
                 <MdOutlineAccountCircle />
                 Account
               </Link>
             </li>
           ) : (
             <li className="text-center shadow-sm text-xl">
-              <Link to="/login" onClick={toggleSidebar} className="flex gap-2 justify-center items-center">
+              <Link
+                to="/login"
+                onClick={toggleSidebar}
+                className="flex gap-2 justify-center items-center"
+              >
                 <CiLogin /> Login
               </Link>
             </li>
           )}
           <li className="text-center shadow-sm text-xl">
-            <Link to="/stats" onClick={toggleSidebar} className="flex gap-2 justify-center items-center">
+            <Link
+              to="/stats"
+              onClick={toggleSidebar}
+              className="flex gap-2 justify-center items-center"
+            >
               <IoIosStats />
               Stats
             </Link>
@@ -50,7 +72,11 @@ function Sidebar({ isOpen, toggleSidebar }) {
 
         <ul className=" flex flex-col space-y-4  p-4">
           <li className="text-center shadow-sm text-xl">
-            <Link to="/settings" onClick={toggleSidebar} className="flex gap-2 justify-center items-center">
+            <Link
+              to="/settings"
+              onClick={toggleSidebar}
+              className="flex gap-2 justify-center items-center"
+            >
               <IoSettingsOutline />
               Settings
             </Link>
