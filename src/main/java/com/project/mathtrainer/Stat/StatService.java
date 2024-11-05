@@ -34,10 +34,9 @@ public class StatService {
         );
     }
 
-    public void createStatForUser(String username) {
-        User user = userService.getCurrentUser(username);
+    public void createStatForUser(User user) {
         if (user == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found: " + username);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found: " + user.getUsername());
         }
         Stat newStat = new Stat();
         newStat.setUser(user);

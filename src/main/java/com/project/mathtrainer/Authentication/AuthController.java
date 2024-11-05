@@ -37,9 +37,8 @@ public class AuthController {
     public ResponseEntity<String> registerUser(@RequestBody User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-
         userService.saveUser(user);
-        statService.createStatForUser(user.getUsername());
+        statService.createStatForUser(user);
 
         return ResponseEntity.ok("User registered successfully!");
     }
