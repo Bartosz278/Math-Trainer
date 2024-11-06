@@ -11,7 +11,6 @@ import java.util.List;
 @RequestMapping("/api")
 @RestController
 public class UserController {
-    //TODO potem usunac klasa tylko do debug
 
     @Autowired
     private UserRepository userRepository;
@@ -19,6 +18,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    //TODO potem usunac tylko do debug
     @GetMapping("/users")
     public List<User> getAllUsers() {
         return userRepository.findAll();

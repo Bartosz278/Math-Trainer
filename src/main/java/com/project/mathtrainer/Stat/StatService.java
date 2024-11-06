@@ -1,17 +1,13 @@
 package com.project.mathtrainer.Stat;
 
 import com.project.mathtrainer.User.User;
-import com.project.mathtrainer.User.UserRepository;
 import com.project.mathtrainer.User.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class StatService {
@@ -22,24 +18,29 @@ public class StatService {
     @Autowired
     private  StatRepository statRepository;
 
+    @Transactional
+    public void addGameStat(StatDTO statDTO) {
+        User user = userService.getCurrentUser(userService.getLoggedInUsername());
 
-
-    public StatDTO getStatsForLoggedInUser() {
-        String username = userService.getLoggedInUsername();
-        User loggedInUser = userService.findUserByUsername(username);
-
-        return new StatDTO(
-                Optional.ofNullable(statRepository.findByUserId(loggedInUser.getId())
-                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Statistics not found for user: " + username)))
-        );
-    }
-
-    public void createStatForUser(User user) {
-        if (user == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found: " + user.getUsername());
-        }
         Stat newStat = new Stat();
         newStat.setUser(user);
+        newStat.setWrongAnswers(statDTO.getWrongAnswers());
+        newStat.setTotalQuestions(statDTO.getTotalQuestions());
+        newStat.setAverageTimePerQuestion(statDTO.getAverageTimePerQuestion());
+        newStat.setTotalTime(statDTO.getTotalTime());
+        newStat.setDate(statDTO.getDate());
+
         statRepository.save(newStat);
+    }
+
+    public List<StatDTO> getUserStats() {
+        User user = userService.getCurrentUser(userService.getLoggedInUsername());
+        List<Stat> stats = statRepository.findAllByUserId(user.getId());
+        List<StatDTO> result = new ArrayList<>();
+        for(Stat stat : stats) {
+            StatDTO statDTO = StatDTO.fromEntity(stat);
+            result.add(statDTO);
+        }
+        return result;
     }
 }

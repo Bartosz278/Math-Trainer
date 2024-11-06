@@ -10,8 +10,10 @@ lvl INTEGER NOT NULL
 CREATE TABLE "stat" (
 id BIGINT AUTO_INCREMENT PRIMARY KEY,
 wrong_answers INTEGER NOT NULL,
-correct_answers INTEGER NOT NULL,
 total_questions INTEGER NOT NULL,
+average_time_per_question DOUBLE PRECISION NOT NULL,
+total_time DOUBLE PRECISION NOT NULL,
+date VARCHAR(10),
 user_id BIGINT, CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES "user"(id) ON DELETE CASCADE
 );
 

@@ -12,19 +12,18 @@ public class StatController {
 
     @Autowired
     private StatService statService;
+
     @Autowired
     private StatRepository statRepository;
 
-    //todo potem usunać tylko do debugu
-    @GetMapping("/debug")
-    public List<Stat> getStats() {
-        return statRepository.findAll();
+    @PostMapping("/addGameStat")
+    public ResponseEntity<String>addGameStat(@RequestBody StatDTO statDTO) {
+        statService.addGameStat(statDTO);
+        return ResponseEntity.ok("Stats added successfully");
     }
 
-
-    @GetMapping("")
-    public ResponseEntity<StatDTO>getUserStats() {
-        return ResponseEntity.ok(statService.getStatsForLoggedInUser());
+    @GetMapping("/userStats")
+    public ResponseEntity<List<StatDTO>> getUserStats() {
+        return ResponseEntity.ok(statService.getUserStats());
     }
-
 }

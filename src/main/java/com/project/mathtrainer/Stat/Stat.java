@@ -10,16 +10,19 @@ import lombok.Setter;
 @Setter
 @Table(name = "\"stat\"")
 public class Stat {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private int wrongAnswers;
 
-    private int correctAnswers;
-
     private int totalQuestions;
+
+    private double averageTimePerQuestion;
+
+    private double totalTime;
+
+    private String date;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
