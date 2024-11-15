@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Keyboard from "../components/Keyboard";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import sendGameStats from "../helpers/sendGameStats";
 
 function Problem() {
   const [question, setQuestion] = useState({});
@@ -12,6 +13,7 @@ function Problem() {
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [mistakes, setMistakes] = useState(0);
   const [startTime, setStartTime] = useState(null);
+  const [gameFinished, setGameFinished] = useState(false);
 
   async function getQuestion() {
     try {
@@ -43,6 +45,7 @@ function Problem() {
       const timer = setTimeout(() => setCountdown(countdown - 1), 1300);
       return () => clearTimeout(timer);
     } else if (countdown === 0) {
+      setGameFinished(false);
       setIsGameLaunched(true);
       setStartTime(new Date());
     }
@@ -96,6 +99,41 @@ function Problem() {
     }
   };
 
+  useEffect(() => {
+    if (correctAnswers > 4) {
+      const totalTime = ((new Date() - startTime) / 1000).toFixed(2);
+      const totalQuestions = correctAnswers;
+      const averageTimePerQuestion = (totalTime / totalQuestions).toFixed(2);
+      const currentDate = new Date().toLocaleDateString("en-GB");
+
+      const gameStats = {
+        averageTimePerQuestion: parseFloat(averageTimePerQuestion),
+        date: currentDate,
+        totalQuestions,
+        totalTime: parseFloat(totalTime),
+        wrongAnswers: mistakes,
+      };
+
+      sendGameStats(gameStats);
+      sendGameStats(gameStats);
+      sendGameStats(gameStats);
+      sendGameStats(gameStats);
+      sendGameStats(gameStats);
+      sendGameStats(gameStats);
+      sendGameStats(gameStats);
+      sendGameStats(gameStats);
+      sendGameStats(gameStats);
+      sendGameStats(gameStats);
+      sendGameStats(gameStats);
+      sendGameStats(gameStats);
+      sendGameStats(gameStats);
+      sendGameStats(gameStats);
+      sendGameStats(gameStats);
+      sendGameStats(gameStats);
+      sendGameStats(gameStats);
+    }
+  }, [correctAnswers]);
+
   if (correctAnswers < 5) {
     return (
       <div className="bg-gray-400/70 mx-auto backdrop-blur-sm border-[5px] rounded-[20px] drop-shadow-[0_35px_35px_rgba(0,0,0,0.8)]  md:w-2/3 w-[80%] max-w-[600px] h-[80%] max-h-[700px] min-h-[550px] mt-8 p-6 flex flex-col ">
@@ -111,12 +149,8 @@ function Problem() {
                 }}
               ></div>
             </div>
-            <div className="text-6xl mx-auto pt-3  text-white">
-              {question.Operation}
-            </div>
-            <div className="h-16 mx-auto font-extrabold text-white text-6xl">
-              {answer || "?"}
-            </div>
+            <div className="text-6xl mx-auto pt-3  text-white">{question.Operation}</div>
+            <div className="h-16 mx-auto font-extrabold text-white text-6xl">{answer || "?"}</div>
             <div className="mt-10">
               <Keyboard onKeyPress={handleKeyPress} />
             </div>
@@ -126,10 +160,7 @@ function Problem() {
             {countdown > 0 ? (
               <>
                 <h1 className="mt-10">The game will start in </h1>
-                <h2
-                  className="text-[78px] font-bold animate-countdown mt-2"
-                  key={countdown}
-                >
+                <h2 className="text-[78px] font-bold animate-countdown mt-2" key={countdown}>
                   {countdown}
                 </h2>
               </>
@@ -143,6 +174,7 @@ function Problem() {
   // Game result
   if (correctAnswers > 4) {
     const totalTime = ((new Date() - startTime) / 1000).toFixed(2);
+    const averageTimePerQuestion = (totalTime / (correctAnswers + mistakes)).toFixed(2);
     return (
       <div className="bg-gray-400/70 mx-auto backdrop-blur-sm border-[5px] rounded-[20px] drop-shadow-[0_35px_35px_rgba(0,0,0,0.8)]  md:w-2/3 w-[80%] max-w-[600px] h-3/4 mt-8 p-6 flex flex-col">
         <div className="mx-auto mt-5 text-center">
@@ -157,9 +189,9 @@ function Problem() {
             <p>
               <strong>Mistakes Made:</strong> {mistakes}
             </p>
+            <p>Average Time Per Question: {averageTimePerQuestion}s</p>
             <p>
-              <strong>Feedback:</strong>{" "}
-              {correctAnswers >= 5 ? "Great job!" : "Keep practicing!"}
+              <strong>Feedback:</strong> {correctAnswers >= 5 ? "Great job!" : "Keep practicing!"}
             </p>
           </div>
           <button
@@ -175,9 +207,7 @@ function Problem() {
             Play Again
           </button>
           <div className="flex flex-col items-center">
-            <p className="mt-10 text-2xl mx-auto p-3 text-white">
-              Back to main menu
-            </p>
+            <p className="mt-10 text-2xl mx-auto p-3 text-white">Back to main menu</p>
             <Link to="/">
               <FaArrowLeft size={48} className="cursor-pointer text-white" />
             </Link>

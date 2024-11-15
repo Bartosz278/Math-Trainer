@@ -15,39 +15,14 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route
-              index
-              element={
-                isLoggedIn ? (
-                  <Navigate to="/home" replace />
-                ) : (
-                  <Navigate to="/login" replace />
-                )
-              }
-            />
-            <Route
-              path="home"
-              element={isLoggedIn ? <Home /> : <Navigate to="/login" replace />}
-            />
-            <Route
-              path="game"
-              element={
-                isLoggedIn ? <Problem /> : <Navigate to="/login" replace />
-              }
-            />
+            <Route index element={isLoggedIn ? <Navigate to="/home" replace /> : <Navigate to="/login" replace />} />
+            <Route path="home" element={isLoggedIn ? <Home /> : <Navigate to="/login" replace />} />
+            <Route path="game" element={isLoggedIn ? <Problem /> : <Navigate to="/login" replace />} />
             <Route path="login" element={<Login />} />
-            <Route
-              path="stats"
-              element={
-                isLoggedIn ? <Stats /> : <Navigate to="/login" replace />
-              }
-            />
-            <Route
-              path="account"
-              element={
-                isLoggedIn ? <Account /> : <Navigate to="/login" replace />
-              }
-            />
+
+            <Route path="stats" element={isLoggedIn ? <Stats /> : <Navigate to="/login" replace />} />
+
+            <Route path="account" element={isLoggedIn ? <Account /> : <Navigate to="/login" replace />} />
           </Route>
           <Route path="*" element={<PageNotFound />} />
         </Routes>

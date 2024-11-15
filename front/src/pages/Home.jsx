@@ -2,15 +2,11 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 function Home() {
-  const { isLoggedIn, user } = useAuth();
+  const { user } = useAuth();
 
   return (
     <div className="bg-gray-400/70 mx-auto backdrop-blur-sm border-[5px] rounded-[20px] drop-shadow-[0_35px_35px_rgba(0,0,0,0.8)]  md:w-2/3 w-[80%] max-w-[500px] h-3/4 mt-8 p-6 flex flex-col text-white">
-      {user.username == "admin" ? (
-        <div className="mx-auto text-xl font-bold">You play as a guest</div>
-      ) : (
-        <div className="mx-auto text-xl font-bold">Hi {user?.username}</div>
-      )}
+      {user.username == "admin" ? <div className="mx-auto text-xl font-bold">You play as a guest</div> : <div className="mx-auto text-xl font-bold">Hi {user?.username}</div>}
       <div className="flex justify-center gap-2 sm:gap-5 mx-2 sm:mt-10 mt-3 flex-col items-center overflow-auto">
         {user.username == "admin" ? (
           <Link to="/login">
