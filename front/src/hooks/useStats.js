@@ -17,8 +17,6 @@ export const useStats = () => {
             });
             setStats(response.data);
 
-
-
         } catch (err) {
             setError(err.message);
         } finally {

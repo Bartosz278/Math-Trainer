@@ -8,7 +8,9 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn") === "true ");
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("isLoggedIn") === "true "
+  );
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -16,10 +18,15 @@ export const AuthProvider = ({ children }) => {
 
       if (token) {
         try {
-          const response = await axios.get(`http://localhost:8080/api/userDetails`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
+          const response = await axios.get(
+            `http://localhost:8080/api/userDetails`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
           setUser(response.data);
+          console.log(response.data);
+
           setIsLoggedIn(true);
           localStorage.setItem("isLoggedIn", "true");
         } catch (error) {
@@ -35,13 +42,20 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     try {
-      const response = await axios.post("http://localhost:8080/api/login", { username, password }, { headers: { "Content-Type": "application/json" } });
+      const response = await axios.post(
+        "http://localhost:8080/api/login",
+        { username, password },
+        { headers: { "Content-Type": "application/json" } }
+      );
 
       if (response.status === 200) {
         localStorage.setItem("token", response.data);
         localStorage.setItem("username", username);
 
-        const userResponse = await axios.get(`http://localhost:8080/api/userDetails`, { headers: { Authorization: `Bearer ${response.data}` } });
+        const userResponse = await axios.get(
+          `http://localhost:8080/api/userDetails`,
+          { headers: { Authorization: `Bearer ${response.data}` } }
+        );
         setUser(userResponse.data);
         setMessage("Login successful!");
         setIsLoggedIn(true);
@@ -81,7 +95,10 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error("Registration error:", error.response);
 
-      const errorMessage = typeof error.response?.data === "object" ? JSON.stringify(error.response.data) : error.response?.data || "An error occurred during registration.";
+      const errorMessage =
+        typeof error.response?.data === "object"
+          ? JSON.stringify(error.response.data)
+          : error.response?.data || "An error occurred during registration.";
 
       setError(errorMessage);
       return false;
