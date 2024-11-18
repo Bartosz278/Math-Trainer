@@ -30,6 +30,8 @@ public class StatService {
         newStat.setTotalTime(statDTO.getTotalTime());
         newStat.setDate(statDTO.getDate());
 
+        lvlUp(statDTO.getTotalQuestions());
+
         statRepository.save(newStat);
     }
 
@@ -42,5 +44,14 @@ public class StatService {
             result.add(statDTO);
         }
         return result;
+    }
+    private void lvlUp(int questions){
+        User user = userService.getCurrentUser(userService.getLoggedInUsername());
+        user.setQuestionsOnThisLvl(user.getQuestionsOnThisLvl() + questions);
+
+        if(user.getQuestionsOnThisLvl() >= 5 + user.getLvl()){
+            user.setQuestionsOnThisLvl(user.getQuestionsOnThisLvl() - (5 + user.getLvl()));
+            user.setLvl(user.getLvl() + 1);
+        }
     }
 }

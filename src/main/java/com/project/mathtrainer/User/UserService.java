@@ -39,7 +39,7 @@ public class UserService implements UserDetailsService {
         String username = getLoggedInUsername();
         User loggedInUser = getCurrentUser(username);
 
-        return new UserDTO(loggedInUser.getUsername(), loggedInUser.getEmail(), loggedInUser.isVerified(), loggedInUser.getLvl());
+        return new UserDTO(loggedInUser.getUsername(), loggedInUser.getEmail(), loggedInUser.isVerified(), loggedInUser.getLvl(), loggedInUser.getQuestionsOnThisLvl());
     }
 
     public String getLoggedInUsername() {

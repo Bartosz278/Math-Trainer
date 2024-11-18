@@ -38,7 +38,7 @@ public class QuestionService {
                 result = firstNumber + secondNumber;
                 break;
             case "-":
-                while(secondNumber > firstNumber){
+                while(secondNumber >= firstNumber){
                     secondNumber = drawNumber(user);
                 }
                 result = firstNumber - secondNumber;

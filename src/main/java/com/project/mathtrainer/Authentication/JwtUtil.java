@@ -14,7 +14,6 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
     private final String SECRET = "4261656C64756E67";
-    private final long EXPIRATION_TIME = 900_000;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -43,18 +42,13 @@ public class JwtUtil {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS256, SECRET)
                 .compact();
     }
 
-    public boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
-
     public boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (username.equals(userDetails.getUsername()));
     }
 
 }

@@ -17,4 +17,6 @@ public class UserDTO {
     private boolean isVerified;
 
     private int lvl;
+
+    private int questionOnThisLvl;
 }

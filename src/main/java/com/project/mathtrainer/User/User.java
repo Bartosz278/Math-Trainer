@@ -30,6 +30,8 @@ public class User implements UserDetails {
     private boolean isVerified;
 
     private int lvl = 1;
+
+    private int questionsOnThisLvl;
     
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

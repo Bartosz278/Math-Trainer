@@ -4,7 +4,8 @@ username VARCHAR(255) NOT NULL,
 password VARCHAR(255) NOT NULL,
 email VARCHAR(255),
 is_verified BOOLEAN NOT NULL,
-lvl INTEGER NOT NULL
+lvl INTEGER NOT NULL,
+questions_on_this_lvl INTEGER NOT NULL
 );
 
 CREATE TABLE "stat" (

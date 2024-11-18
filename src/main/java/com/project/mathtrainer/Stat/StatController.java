@@ -13,9 +13,6 @@ public class StatController {
     @Autowired
     private StatService statService;
 
-    @Autowired
-    private StatRepository statRepository;
-
     @PostMapping("/addGameStat")
     public ResponseEntity<String>addGameStat(@RequestBody StatDTO statDTO) {
         statService.addGameStat(statDTO);
