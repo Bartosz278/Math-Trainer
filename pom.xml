@@ -9,7 +9,7 @@
 		<relativePath/>
 	</parent>
 	<groupId>com.project</groupId>
-	<artifactId>mathtrainer</artifactId>
+	<artifactId>MathTrainer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>MathTrainer</name>
 	<description>Demo project for Spring Boot</description>
