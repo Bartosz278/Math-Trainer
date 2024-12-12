@@ -18,12 +18,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    //TODO potem usunac tylko do debug
-    @GetMapping("/users")
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-
     @GetMapping("/userDetails")
     public UserDTO getUser(){
         return userService.getUserDetails();
