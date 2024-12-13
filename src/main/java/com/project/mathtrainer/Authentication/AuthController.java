@@ -35,14 +35,15 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        userService.saveUser(user);
-
-        return ResponseEntity.ok("User registered successfully!");
+        if(!userService.checkIfUserExists(user.getUsername())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userService.saveUser(user);
+            return ResponseEntity.ok("User registered successfully!");
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists!");
+        }
     }
-
-
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody AuthenticationRequest request) {
         try {
