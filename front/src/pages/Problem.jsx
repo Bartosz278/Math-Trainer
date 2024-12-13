@@ -20,7 +20,7 @@ function Problem() {
   async function getQuestion() {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:8080/api/question", {
+      const res = await fetch("https://mathtrainer.onrender.com/api/question", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

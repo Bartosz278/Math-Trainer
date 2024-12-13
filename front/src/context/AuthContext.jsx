@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
       if (token) {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/userDetails`,
+            `https://mathtrainer.onrender.com/api/userDetails`,
             {
               headers: { Authorization: `Bearer ${token}` },
             }
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (username, password) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/login",
+        "https://mathtrainer.onrender.com/api/login",
         { username, password },
         { headers: { "Content-Type": "application/json" } }
       );
@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("username", username);
 
         const userResponse = await axios.get(
-          `http://localhost:8080/api/userDetails`,
+          `https://mathtrainer.onrender.com/api/userDetails`,
           { headers: { Authorization: `Bearer ${response.data}` } }
         );
         setUser(userResponse.data);
@@ -83,10 +83,13 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (username, password) => {
     try {
-      const response = await axios.post("http://localhost:8080/api/register", {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        "https://mathtrainer.onrender.com/api/register",
+        {
+          username,
+          password,
+        }
+      );
 
       if (response.status === 200) {
         setMessage("Registration successful! You can now log in.");

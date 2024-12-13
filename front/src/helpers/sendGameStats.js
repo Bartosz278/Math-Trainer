@@ -4,7 +4,7 @@ const sendGameStats = async (stats) => {
   try {
     const token = localStorage.getItem("token");
     const response = await axios.post(
-      "http://localhost:8080/api/stats/addGameStat",
+      "https://mathtrainer.onrender.com/api/stats/addGameStat",
       stats,
       {
         headers: {
@@ -20,4 +20,4 @@ const sendGameStats = async (stats) => {
   }
 };
 
-export default sendGameStats
+export default sendGameStats;
