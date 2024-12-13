@@ -44,12 +44,35 @@ public class QuestionService {
                 result = firstNumber - secondNumber;
                 break;
             case "/":
-                while(secondNumber == 0 || firstNumber % secondNumber != 0){
+                if(user.getLvl() < 5){
+                    while(firstNumber * secondNumber >= 30){
+                        firstNumber = drawNumber(user);
+                        secondNumber = drawNumber(user);
+                    }
+                }
+                while(secondNumber == 0){
                     secondNumber = drawNumber(user);
                 }
-                result = firstNumber / secondNumber;
+                result = firstNumber;
+                firstNumber = firstNumber * secondNumber;
                 break;
             case "*":
+                if(user.getLvl() < 5){
+                    while(firstNumber * secondNumber >= 30){
+                        firstNumber = drawNumber(user);
+                        secondNumber = drawNumber(user);
+                    }
+                }
+                else if(user.getLvl() < 10){
+                    while(firstNumber * secondNumber >= 100){
+                        firstNumber = drawNumber(user);
+                        secondNumber = drawNumber(user);
+                    }
+                }else if(user.getLvl() < 15){
+                    while(secondNumber >= 20){
+                        secondNumber = drawNumber(user);
+                    }
+                }
                 result = firstNumber * secondNumber;
                 break;
             default:
@@ -68,6 +91,9 @@ public class QuestionService {
     }
 
     private int drawNumber(User user){
-        return (random.nextInt(10 * user.getLvl()) + 1) + (user.getLvl() * 3);
+        int min = user.getLvl();
+        int max = 10 + (user.getLvl() - 1) * 3;
+
+        return random.nextInt(max - min + 1) + min;
     }
 }
