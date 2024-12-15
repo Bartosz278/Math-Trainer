@@ -15,7 +15,7 @@ function Home() {
       <div className="absolute inset-0 backdrop-blur-sm -z-10"></div>
 
       <div className="bg-gray-400/70 mx-auto  border-[5px] rounded-[20px] drop-shadow-[0_35px_35px_rgba(0,0,0,0.8)]  md:w-2/3 w-[80%] max-w-[500px] h-5/6 mt-8 p-3 flex flex-col  text-white">
-        {user.username == "admin" ? (
+        {user.username == "guest" ? (
           <div className="mx-auto text-xl font-bold">
             <p className="text-center">You play as a guest</p>
           </div>
@@ -34,7 +34,7 @@ function Home() {
           </div>
         )}
         <div className="flex justify-between gap-2 sm:gap-5 mx-2 sm:mt-10 mt-6 flex-col items-center overflow-auto">
-          {user.username == "admin" ? (
+          {user.username == "guest" ? (
             <Link to="/login">
               <div className="cursor-pointer sm:w-48 max-w-[400px] bg-gray-500 p-2  text-white font-Inconsolata  rounded-xl shadow-2xl border-2  hover:shadow-[inset_-12px_-8px_40px_#46464620] w-[120px]">
                 <h1 className="text-center font-extrabold bg-gray-500">Log in</h1>
@@ -50,7 +50,7 @@ function Home() {
               <span className="flex justify-end p-2"></span>
             </div>
           </Link>
-          {user.username != "admin" ? (
+          {user.username != "guest" ? (
             <>
               <Link to="/stats">
                 <div className="cursor-pointer sm:w-48 max-w-[400px] bg-gray-500 p-2  text-white font-Inconsolata  rounded-xl shadow-2xl border-2  hover:shadow-[inset_-12px_-8px_40px_#46464620] w-[120px]">

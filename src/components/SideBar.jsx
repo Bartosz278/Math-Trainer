@@ -50,7 +50,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
             </li>
           )}
 
-          {isLoggedIn ? (
+          {isLoggedIn && user.username != "guest" ? (
             <li className="text-center shadow-sm text-xl">
               <Link to="/stats" onClick={toggleSidebar} className="flex gap-2 justify-center items-center">
                 <IoIosStats />
@@ -60,21 +60,23 @@ function Sidebar({ isOpen, toggleSidebar }) {
           ) : null}
         </ul>
 
-        <ul className=" flex flex-col space-y-4  p-4">
-          <li className="text-center shadow-sm text-xl">
-            <Link
-              to="/login"
-              onClick={() => {
-                logout();
-                toggleSidebar();
-              }}
-              className="flex gap-2 justify-center items-center"
-            >
-              <TbLogout2 />
-              Log out
-            </Link>
-          </li>
-        </ul>
+        {isLoggedIn && user.username != "guest" ? (
+          <ul className=" flex flex-col space-y-4  p-4">
+            <li className="text-center shadow-sm text-xl">
+              <Link
+                to="/login"
+                onClick={() => {
+                  logout();
+                  toggleSidebar();
+                }}
+                className="flex gap-2 justify-center items-center"
+              >
+                <TbLogout2 />
+                Log out
+              </Link>
+            </li>
+          </ul>
+        ) : null}
       </nav>
     </div>
   );

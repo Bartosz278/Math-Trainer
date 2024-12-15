@@ -41,7 +41,7 @@ function Stats() {
             <p>Mistakes made: {mistakes} </p>
             {stats && (
               <ol className="overflow-auto">
-                {stats.map((game, i) => (
+                {stats.reverse().map((game, i) => (
                   <StatsRow key={game.id || `game-${i}`} stats={game} id={game.id || i} isExpanded={expandedId === (game.id || i)} onToggleExpand={handleToggleExpand} />
                 ))}
               </ol>

@@ -12,10 +12,10 @@ function Login() {
   const { login, register, error, message, setError, isLoggedIn, setMessage, user, logout, loading } = useAuth();
   const navigate = useNavigate();
   const [showLoadingMessage, setShowLoadingMessage] = useState(false); // Nowy stan
-  const guest = { username: "admin", password: "admin" };
+  const guest = { username: "guest", password: "guest" };
   useEffect(() => {
     if (isLoggedIn) {
-      if (!user?.username || user.username === "admin") {
+      if (!user?.username || user.username === "guest") {
         logout();
       } else {
         navigate("/home");
@@ -81,7 +81,7 @@ function Login() {
             </div>
           </Link>
 
-          {!user?.username || user.username === "admin" ? (
+          {!user?.username || user.username === "guest" ? (
             <>
               {error && <p className="text-red-500 text-center">{error}</p>}
               {message && <p className="text-blue-950 text-center">{message}</p>}

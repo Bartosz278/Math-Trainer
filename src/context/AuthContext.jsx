@@ -43,10 +43,10 @@ export const AuthProvider = ({ children }) => {
         const userResponse = await axios.get(`https://mathtrainer.onrender.com/api/userDetails`, { headers: { Authorization: `Bearer ${response.data}` } });
         setUser(userResponse.data);
         setMessage("Login successful!");
-        if (username != "admin") {
-          setIsLoggedIn(true);
-          localStorage.setItem("isLoggedIn", "true");
-        }
+
+        setIsLoggedIn(true);
+        localStorage.setItem("isLoggedIn", "true");
+
         setLoading(false);
         return true;
       }

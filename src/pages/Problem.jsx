@@ -122,7 +122,7 @@ function Problem() {
   };
 
   useEffect(() => {
-    if (correctAnswers > 4 && user.username != "admin") {
+    if (correctAnswers > 4 && user.username != "guest") {
       const totalTime = ((new Date() - startTime) / 1000).toFixed(2);
       const totalQuestions = correctAnswers;
       const averageTimePerQuestion = (totalTime / totalQuestions).toFixed(2);
