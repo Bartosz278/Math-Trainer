@@ -11,7 +11,7 @@ function Header({ toggleSidebar }) {
       </button>
       <Link to="/">
         <div className="flex items-center justify-center space-x-4 animate-fade-in">
-          <img src="./src/assets/logo.png" className="w-12  " alt="Logo" />
+          <img src="/assets/logo.png" className="w-12  " alt="Logo" />
           <h1 className="text-3xl  text-white tracking-wider">Mathify</h1>
         </div>
       </Link>

@@ -7,11 +7,13 @@ import Problem from "./pages/Problem";
 import Stats from "./pages/Stats";
 import Account from "./pages/Account";
 import { useAuth } from "./context/AuthContext";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const { isLoggedIn } = useAuth();
   return (
     <div className="h-screen">
+      <ToastContainer />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>

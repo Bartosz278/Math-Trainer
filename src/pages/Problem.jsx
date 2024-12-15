@@ -3,6 +3,7 @@ import Keyboard from "../components/Keyboard";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import sendGameStats from "../helpers/sendGameStats";
+import { useAuth } from "../context/AuthContext";
 
 function Problem() {
   const [question, setQuestion] = useState({});
@@ -14,11 +15,14 @@ function Problem() {
   const [mistakes, setMistakes] = useState(0);
   const [startTime, setStartTime] = useState(null);
   const [gameFinished, setGameFinished] = useState(false);
+  const [isMistakeLogged, setIsMistakeLogged] = useState(false);
+
+  const { user } = useAuth();
 
   async function getQuestion() {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:8080/api/question", {
+      const res = await fetch("https://mathtrainer.onrender.com/api/question", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -53,10 +57,16 @@ function Problem() {
 
   // COMPARING QUESTION
   useEffect(() => {
-    if (question.Result === null || question.Result === undefined) return; //
+    if (question.Result === null || question.Result === undefined) return;
 
-    if (String(answer) === String(question.Result)) {
+    const correctResultStr = String(question.Result);
+
+    // Jeśli odpowiedź jest poprawna
+    if (answer === correctResultStr) {
       setCorrectAnswers((correctAnswers) => correctAnswers + 1);
+
+      // Reset flagi błędu, przygotowanie do kolejnego pytania
+      setIsMistakeLogged(false);
 
       const timeout = setTimeout(() => {
         setAnswer("");
@@ -64,8 +74,20 @@ function Problem() {
       }, 200);
 
       return () => clearTimeout(timeout);
-    } else if (answer !== "" && String(answer) !== String(question.Result)) {
-      setMistakes((mistakes) => mistakes + 1);
+    }
+
+    // Jeśli odpowiedź jest niepoprawna
+    if (answer !== "" && answer.length === correctResultStr.length && answer !== correctResultStr) {
+      // Zlicz błąd tylko, jeśli jeszcze nie został zarejestrowany
+      if (!isMistakeLogged) {
+        setMistakes((mistakes) => mistakes + 1);
+        setIsMistakeLogged(true);
+      }
+    }
+
+    // Jeśli długość odpowiedzi jest mniejsza niż poprawny wynik, zresetuj flagę
+    if (answer.length < correctResultStr.length) {
+      setIsMistakeLogged(false);
     }
   }, [answer, question.Result]);
 
@@ -100,7 +122,7 @@ function Problem() {
   };
 
   useEffect(() => {
-    if (correctAnswers > 4) {
+    if (correctAnswers > 4 && user.username != "admin") {
       const totalTime = ((new Date() - startTime) / 1000).toFixed(2);
       const totalQuestions = correctAnswers;
       const averageTimePerQuestion = (totalTime / totalQuestions).toFixed(2);
@@ -113,7 +135,6 @@ function Problem() {
         totalTime: parseFloat(totalTime),
         wrongAnswers: mistakes,
       };
-
       sendGameStats(gameStats);
     }
   }, [correctAnswers]);
@@ -161,11 +182,11 @@ function Problem() {
     const averageTimePerQuestion = (totalTime / (correctAnswers + mistakes)).toFixed(2);
     return (
       <div className="bg-gray-400/70 mx-auto backdrop-blur-sm border-[5px] rounded-[20px] drop-shadow-[0_35px_35px_rgba(0,0,0,0.8)]  md:w-2/3 w-[80%] max-w-[600px] h-3/4 mt-8 p-6 flex flex-col">
-        <div className="mx-auto mt-5 text-center">
-          <h1 className="text-5xl font-bold text-white">Game Summary</h1>
-          <div className="mt-4 text-2xl text-white">
+        <div className="mx-auto text-center h-full flex flex-col justify-between max-h-[400px]">
+          <div className=" text-2xl text-white">
+            <h1 className="text-5xl font-bold text-white">Game Summary</h1>
             <p>
-              <strong>Time Taken:</strong> {totalTime} seconds
+              <strong>Time Taken:</strong> {totalTime} s
             </p>
             <p>
               <strong>Correct Answers:</strong> {correctAnswers}
@@ -174,9 +195,6 @@ function Problem() {
               <strong>Mistakes Made:</strong> {mistakes}
             </p>
             <p>Average Time Per Question: {averageTimePerQuestion}s</p>
-            <p>
-              <strong>Feedback:</strong> {correctAnswers >= 5 ? "Great job!" : "Keep practicing!"}
-            </p>
           </div>
           <button
             onClick={() => {
@@ -191,7 +209,7 @@ function Problem() {
             Play Again
           </button>
           <div className="flex flex-col items-center">
-            <p className="mt-10 text-2xl mx-auto p-3 text-white">Back to main menu</p>
+            <p className="mt-3 text-2xl mx-auto p-3 text-white">Back to main menu</p>
             <Link to="/">
               <FaArrowLeft size={48} className="cursor-pointer text-white" />
             </Link>

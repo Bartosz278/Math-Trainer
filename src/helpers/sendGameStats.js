@@ -4,7 +4,7 @@ const sendGameStats = async (stats) => {
   try {
     const token = localStorage.getItem("token");
     const response = await axios.post(
-      "http://localhost:8080/api/stats/addGameStat",
+      "https://mathtrainer.onrender.com/api/stats/addGameStat",
       stats,
       {
         headers: {
@@ -12,7 +12,7 @@ const sendGameStats = async (stats) => {
         },
       }
     );
-    console.log("Game stats sent successfully:", response.data);
+    // console.log("Game stats sent successfully:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error sending game stats:", error);
@@ -20,4 +20,4 @@ const sendGameStats = async (stats) => {
   }
 };
 
-export default sendGameStats
+export default sendGameStats;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Header from "./Header";
-import SideBar from "./SideBar";
+import Sidebar from "./SideBar";
 import { Outlet } from "react-router-dom";
 
 function Layout() {
@@ -12,7 +12,7 @@ function Layout() {
 
   return (
     <div className="flex h-full">
-      <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <div className="flex flex-col flex-grow">
         <Header toggleSidebar={toggleSidebar} />
         <Outlet />

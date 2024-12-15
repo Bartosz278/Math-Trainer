@@ -5,47 +5,49 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn") === "true ");
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const token = localStorage.getItem("token");
+  const fetchUserData = async () => {
+    const token = localStorage.getItem("token");
 
-      if (token) {
-        try {
-          const response = await axios.get(`http://localhost:8080/api/userDetails`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          setUser(response.data);
-          setIsLoggedIn(true);
-          localStorage.setItem("isLoggedIn", "true");
-        } catch (error) {
-          setUser(null);
-          setIsLoggedIn(false);
-          localStorage.setItem("isLoggedIn", "false");
-        }
+    if (token) {
+      try {
+        const response = await axios.get(`https://mathtrainer.onrender.com/api/userDetails`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUser(response.data);
+        setIsLoggedIn(true);
+        localStorage.setItem("isLoggedIn", "true");
+      } catch (error) {
+        setUser(null);
+        setError(error);
+        setIsLoggedIn(false);
+        localStorage.setItem("isLoggedIn", "false");
       }
-      setLoading(false);
-    };
-    fetchUserData();
-  }, []);
+    }
+    setLoading(false);
+  };
 
   const login = async (username, password) => {
+    setLoading(true);
     try {
-      const response = await axios.post("http://localhost:8080/api/login", { username, password }, { headers: { "Content-Type": "application/json" } });
+      const response = await axios.post("https://mathtrainer.onrender.com/api/login", { username, password }, { headers: { "Content-Type": "application/json" } });
 
       if (response.status === 200) {
         localStorage.setItem("token", response.data);
         localStorage.setItem("username", username);
 
-        const userResponse = await axios.get(`http://localhost:8080/api/userDetails`, { headers: { Authorization: `Bearer ${response.data}` } });
+        const userResponse = await axios.get(`https://mathtrainer.onrender.com/api/userDetails`, { headers: { Authorization: `Bearer ${response.data}` } });
         setUser(userResponse.data);
         setMessage("Login successful!");
-        setIsLoggedIn(true);
-        localStorage.setItem("isLoggedIn", "true");
+        if (username != "admin") {
+          setIsLoggedIn(true);
+          localStorage.setItem("isLoggedIn", "true");
+        }
+        setLoading(false);
         return true;
       }
     } catch (error) {
@@ -64,12 +66,14 @@ export const AuthProvider = ({ children }) => {
         }
       }
       setError(errorMessage);
+      setLoading(false);
     }
+    setLoading(false);
   };
 
   const register = async (username, password) => {
     try {
-      const response = await axios.post("http://localhost:8080/api/register", {
+      const response = await axios.post("https://mathtrainer.onrender.com/api/register", {
         username,
         password,
       });
@@ -109,6 +113,7 @@ export const AuthProvider = ({ children }) => {
         setError,
         message,
         setMessage,
+        fetchUserData,
       }}
     >
       {children}
