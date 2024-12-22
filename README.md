@@ -48,7 +48,13 @@ To run the project locally, follow these steps:
    ```bash
    git clone https://github.com/Bartosz278/Math-Trainer.git
    cd Math-Trainer
+2. Switch to the frontend branch:
+   ```bash
    git checkout frontend
+3. Install dependencies:
+   ```bash
    npm install
+4. Run:
+   ```bash
    npm run dev
 
