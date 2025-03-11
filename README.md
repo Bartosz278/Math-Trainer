@@ -1,5 +1,5 @@
-# Math Trainer
-# [https://math-trainer.netlify.app/](https://math-training-center.netlify.app/)
+
+# [math-trainer](https://math-training-center.netlify.app/)
 
 Math Trainer is a web application designed to help users improve their math skills through interactive exercises and challenges. The application offers a user-friendly interface and various features to make learning math engaging and efficient.
 
