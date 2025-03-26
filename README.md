@@ -50,7 +50,7 @@ The project is built using the following technologies and tools:
 - **`vite.config.js`**: Configuration for Vite to build and serve the application.
 - **`.eslintrc.*`**: ESLint configuration for maintaining code quality.
 
-## Installation
+## Installation frontend
 
 To run the project locally, follow these steps:
 
@@ -67,4 +67,23 @@ To run the project locally, follow these steps:
 4. Run:
    ```bash
    npm run dev
+
+
+## Installation backend
+
+To run the project locally, follow these steps:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Bartosz278/Math-Trainer.git
+   cd Math-Trainer
+2. Build the project using Maven:
+   ```bash
+   mvn clean install
+3. Run the application:
+   ```bash
+   mvn spring-boot:run
+4. The backend API will be available at
+   ```bash
+   http://localhost:8080/
 
